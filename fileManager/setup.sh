@@ -23,8 +23,12 @@ else
 fi
 
 # 更新 Homebrew
+echo "Homebrew updating...."
 brew update
 
+
 # 安装 yazi
+echo "Installing yazi by homebrew..."
 brew install yazi
+echo "\n*** yazi has beeb installed SUCCESS***"
 # 你可以选择 --HEAD 安装最新版: brew install yazi --HEAD
