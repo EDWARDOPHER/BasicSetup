@@ -31,8 +31,6 @@ print_error() {
 # Check if Zsh is installed
 if ! command -v zsh &> /dev/null; then
     print_error "Zsh is not installed. Please install Zsh first."
-    print_error "Macos: brew install zsh\nLinux: apt install zsh\n"
-    print_error "After installation, please execute \` chsh -s \$(which zsh)\` \n"
     exit 1
 fi
 print_status "Zsh is installed"
@@ -48,22 +46,17 @@ fi
 
 ZSH_CUSTOM="${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}"
 
-# check ssh to github# 
-# print_status "为了减少i由于中国大陆的网络政策导致的github访问问题，下面配置开始前，请确保您的ssh密钥配置已添加到github账户"
-# 这里要加一个输入yes的确认
-# read -r -p "是否已经把当前主机的ssh公钥添加到github(y/n): " yn
-# yn=${yn:-N}
-# if [[ "$yn" =~ ^([yY][eE][sS][yY])$ ]]; then
-# 	print_status "Start downloading extensions..."
-# else 
-# 	print_error "please add your ssh public key to github first!"
-# 	exit 1
-# fi
+####################### yazi(file manager) installation ###################
+# 安装 yazi
+echo "Installing yazi by homebrew..."
+brew install yazi
+echo "\n*** yazi has beeb installed SUCCESS***"
 
+####################### zsh plugin installation ###################
 # Install zsh-autosuggestions
 if [ ! -d "$ZSH_CUSTOM/plugins/zsh-autosuggestions" ]; then
     print_status "Installing zsh-autosuggestions..."
-    git clone git@github.com:zsh-users/zsh-autosuggestions "$ZSH_CUSTOM/plugins/zsh-autosuggestions"
+    git clone https://github.com/zsh-users/zsh-autosuggestions "$ZSH_CUSTOM/plugins/zsh-autosuggestions"
     print_status "zsh-autosuggestions installed"
 else
     print_warning "zsh-autosuggestions is already installed"
@@ -72,7 +65,7 @@ fi
 # Install zsh-syntax-highlighting
 if [ ! -d "$ZSH_CUSTOM/plugins/zsh-syntax-highlighting" ]; then
     print_status "Installing zsh-syntax-highlighting..."
-    git clone git@github.com:zsh-users/zsh-syntax-highlighting.git "$ZSH_CUSTOM/plugins/zsh-syntax-highlighting"
+    git clone https://github.com/zsh-users/zsh-syntax-highlighting.git "$ZSH_CUSTOM/plugins/zsh-syntax-highlighting"
     print_status "zsh-syntax-highlighting installed"
 else
     print_warning "zsh-syntax-highlighting is already installed"
@@ -81,7 +74,7 @@ fi
 # Install fast-syntax-highlighting
 if [ ! -d "$ZSH_CUSTOM/plugins/fast-syntax-highlighting" ]; then
     print_status "Installing fast-syntax-highlighting..."
-    git clone git@github.com:zdharma-continuum/fast-syntax-highlighting.git "$ZSH_CUSTOM/plugins/fast-syntax-highlighting"
+    git clone https://github.com/zdharma-continuum/fast-syntax-highlighting.git "$ZSH_CUSTOM/plugins/fast-syntax-highlighting"
     print_status "fast-syntax-highlighting installed"
 else
     print_warning "fast-syntax-highlighting is already installed"
@@ -90,7 +83,7 @@ fi
 # Install zsh-autocomplete
 if [ ! -d "$ZSH_CUSTOM/plugins/zsh-autocomplete" ]; then
     print_status "Installing zsh-autocomplete..."
-    git clone --depth 1 -- git@github.com:marlonrichert/zsh-autocomplete.git "$ZSH_CUSTOM/plugins/zsh-autocomplete"
+    git clone --depth 1 -- https://github.com/marlonrichert/zsh-autocomplete.git "$ZSH_CUSTOM/plugins/zsh-autocomplete"
     print_status "zsh-autocomplete installed"
 else
     print_warning "zsh-autocomplete is already installed"
@@ -99,7 +92,7 @@ fi
 # Install zfm (zsh file manager) if available
 if [ ! -d "$ZSH_CUSTOM/plugins/zfm" ]; then
     print_status "Installing zfm..."
-    git clone git@github.com:aoife/zfm.git "$ZSH_CUSTOM/plugins/zfm" 2>/dev/null || print_warning "zfm installation failed (may not be available)"
+    git clone https://github.com/aoife/zfm.git "$ZSH_CUSTOM/plugins/zfm" 2>/dev/null || print_warning "zfm installation failed (may not be available)"
 else
     print_warning "zfm is already installed"
 fi
@@ -117,7 +110,7 @@ if ! command -v fzf &> /dev/null; then
         print_status "fzf installed via apt-get"
     else
         # Manual installation
-        git clone --depth 1 git@github.com:junegunn/fzf.git ~/.fzf
+        git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
         ~/.fzf/install --all --no-bash --no-fish
         print_status "fzf installed manually"
     fi
@@ -158,23 +151,23 @@ else
 fi
 
 # Install tmux if not already installed
-# if ! command -v tmux &> /dev/null; then
-#    print_status "Installing tmux..."
-#    if command -v brew &> /dev/null; then
-#        brew install tmux
-#        print_status "tmux installed via Homebrew"
-#    elif command -v apt-get &> /dev/null; then
-#        sudo apt-get install -y tmux
-#        print_status "tmux installed via apt-get"
-#    else
-#        print_warning "Could not install tmux automatically"
-#    fi
-# else
-#    print_warning "tmux is already installed"
-# fi
+if ! command -v tmux &> /dev/null; then
+   print_status "Installing tmux..."
+   if command -v brew &> /dev/null; then
+       brew install tmux
+       print_status "tmux installed via Homebrew"
+   elif command -v apt-get &> /dev/null; then
+       sudo apt-get install -y tmux
+       print_status "tmux installed via apt-get"
+   else
+       print_warning "Could not install tmux automatically"
+   fi
+else
+   print_warning "tmux is already installed"
+fi
 
 # Create tmux sessionizer script directory
-# mkdir -p "$HOME/.tmux/scripts"
+mkdir -p "$HOME/.tmux/scripts"
 
 # Backup existing .zshrc
 if [ -f "$HOME/.zshrc" ]; then
