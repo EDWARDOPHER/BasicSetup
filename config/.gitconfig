@@ -1,0 +1,7 @@
+[user]
+    name = tony
+    # Set your email in ~/.gitconfig.local (not versioned)
+    email = you@example.com
+
+[include]
+    path = ~/.gitconfig.local

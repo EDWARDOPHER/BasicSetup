@@ -1,2 +1,23 @@
-**/.DS_Store
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+Thumbs.db
 
+# Machine-local overrides (not versioned — created by install.sh)
+.zshrc.local
+.gitconfig.local
+.tmux.conf.local
+
+# Package-managed directories (installers handle these)
+.tmux/plugins/
+.config/coc/
+
+# Backup files
+*.backup
+*.backup-*
+*~
+
+# Editor
+*.swp
+*.swo
